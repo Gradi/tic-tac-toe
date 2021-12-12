@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "LibTicTacToe", "LibTicTacToe\LibTicTacToe.fsproj", "{B625BFA9-A072-49D1-B2A7-2B307BCC23C0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B74FC483-E2FA-4204-AC3C-779C22ED6DAA}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TestLibTicTacToe", "Tests\TestLibTicTacToe\TestLibTicTacToe.fsproj", "{BCD87FB3-5985-4176-A066-387BB538316C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B625BFA9-A072-49D1-B2A7-2B307BCC23C0}.Debug|x64.ActiveCfg = Debug|x64
+		{B625BFA9-A072-49D1-B2A7-2B307BCC23C0}.Debug|x64.Build.0 = Debug|x64
+		{B625BFA9-A072-49D1-B2A7-2B307BCC23C0}.Release|x64.ActiveCfg = Release|x64
+		{B625BFA9-A072-49D1-B2A7-2B307BCC23C0}.Release|x64.Build.0 = Release|x64
+		{BCD87FB3-5985-4176-A066-387BB538316C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BCD87FB3-5985-4176-A066-387BB538316C}.Debug|x64.Build.0 = Debug|Any CPU
+		{BCD87FB3-5985-4176-A066-387BB538316C}.Release|x64.ActiveCfg = Release|Any CPU
+		{BCD87FB3-5985-4176-A066-387BB538316C}.Release|x64.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BCD87FB3-5985-4176-A066-387BB538316C} = {B74FC483-E2FA-4204-AC3C-779C22ED6DAA}
+	EndGlobalSection
+EndGlobal

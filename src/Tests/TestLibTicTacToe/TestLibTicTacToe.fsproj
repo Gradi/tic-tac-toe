@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FsUnit" Version="4.1.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\LibTicTacToe\LibTicTacToe.fsproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Tests\TestHelpers.fs" />
+    <Compile Include="Tests\TestLogic.fs" />
+  </ItemGroup>
+
+</Project>
