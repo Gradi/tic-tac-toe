@@ -981,3 +981,18 @@ module ``getGridState`` =
         ]
         |> getGridState
         |> should equal Draw
+
+module ``withCellAt`` =
+
+    [<Test>]
+    let ``Successfully replaces cell`` () =
+        let grid = newGrid (3, 3) 3
+        for row in 0..2 do
+            for col in 0..2 do
+                let cell =
+                    withCellAt row col CellType.X grid
+                    |> cellAt row col
+
+                cell.Row |> should equal row
+                cell.Col |> should equal col
+                cell.Type |> should equal CellType.X

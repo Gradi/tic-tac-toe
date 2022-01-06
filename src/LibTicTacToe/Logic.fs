@@ -196,3 +196,13 @@ let getGridState grid =
                 | O -> OWon winLine
 
             | _ -> Draw
+
+
+let withCellAt row col cellType grid =
+    let cell = { Row = row; Col = col; Type = cellType }
+    let index = row * grid.Cols + col
+    { grid with Cells = grid.Cells |> Array.updateAt index cell }
+
+let enumerateEmptyCells grid =
+    Seq.ofArray grid.Cells
+    |> Seq.filter (fun c -> c.Type = Empty)
