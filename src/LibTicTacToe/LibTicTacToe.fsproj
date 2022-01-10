@@ -8,6 +8,7 @@
     <Compile Include="Domain.fs" />
     <Compile Include="Helpers.fs" />
     <Compile Include="Logic.fs" />
+    <Compile Include="BotLogic.fs" />
     <None Include="Scratchpad.fsx" />
   </ItemGroup>
 

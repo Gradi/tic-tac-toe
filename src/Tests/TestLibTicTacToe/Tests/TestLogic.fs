@@ -1,9 +1,11 @@
 module TestLibTicTacToe.Tests.TestLogic
 
-open LibTicTacToe.Domain
-open LibTicTacToe.Logic
 open NUnit.Framework
 open FsUnit
+
+open LibTicTacToe.Domain
+open LibTicTacToe.Logic
+
 
 module ``newGrid`` =
 
@@ -47,6 +49,9 @@ module ``newGrid`` =
         |> should be True
 
 module ``newGridFromCells`` =
+
+    let X = CellType.X
+    let O = CellType.O
 
     [<Test>]
     let ``Fails with invalid arguments`` () =
@@ -141,11 +146,14 @@ module ``isAllEmpty`` =
 
         for row = 0 to rows - 1 do
             for col = 0 to cols - 1 do
-               { grid with Cells = Array.updateAt (row * cols + col) { Row = row; Col = col; Type = X } grid.Cells}
+               { grid with Cells = Array.updateAt (row * cols + col) { Row = row; Col = col; Type = CellType.X } grid.Cells}
                |> isAllEmpty
                |> should be False
 
 module ``isContainsEmpty`` =
+
+    let X = CellType.X
+    let O = CellType.O
 
     [<Test>]
     let ``Returns true for newly created grid`` ([<Range(1, 10)>] rows: int) ([<Range(1, 10)>] cols: int) =
@@ -200,7 +208,7 @@ module ``enumerateCells returns valid seq for grids of different sizes`` =
     [<Test>]
     let ``0x0`` () =
         ! (0, 0)
-        |> should be Empty
+        |> should be FsUnit.TopLevelOperators.Empty
 
     [<Test>]
     let ``1x1`` () =
@@ -829,11 +837,14 @@ module ``enumerateCells returns valid seq for grids of different sizes`` =
 
 module ``getWinLine`` =
 
+    let X = CellType.X
+    let O = CellType.O
+
     [<Test>]
     let ``Returns empty list for empty grid`` () =
         { Rows = 0; Cols = 0; WinLength = 0; Cells = [||] }
         |> getWinLine
-        |> should be Empty
+        |> should be FsUnit.TopLevelOperators.Empty
 
     [<Test>]
     let ``Returns all win lines`` () =
@@ -903,7 +914,7 @@ module ``getWinLine`` =
     let ``Returns nothing for all Empty cells`` () =
         newGrid (3, 3) 3
         |> getWinLine
-        |> should be Empty
+        |> should be FsUnit.TopLevelOperators.Empty
 
     [<Test>]
     let ``Returns empty list when no win lines`` () =
@@ -915,10 +926,12 @@ module ``getWinLine`` =
 
         grid
         |> getWinLine
-        |> should be Empty
-
+        |> should be FsUnit.TopLevelOperators.Empty
 
 module ``getGridState`` =
+
+    let X = CellType.X
+    let O = CellType.O
 
     [<Test>]
     let ``Returns Draw for empty grid`` () =
@@ -996,3 +1009,60 @@ module ``withCellAt`` =
                 cell.Row |> should equal row
                 cell.Col |> should equal col
                 cell.Type |> should equal CellType.X
+
+module ``withMoveAt`` =
+
+    [<Test>]
+    let ``Returns new grid with updated cell`` () =
+        let grid = newGrid (3, 3) 3
+
+        grid.Cells
+        |> Seq.ofArray
+        |> Seq.map (fun cell -> (cell, withMoveAt cell MoveAs.X grid, withMoveAt cell MoveAs.O grid))
+        |> Seq.iter (fun (cell, xMove, oMove) ->
+            xMove
+            |> cellAt cell.Row cell.Col
+            |> should equal { cell with Type = CellType.X }
+
+            oMove
+            |> cellAt cell.Row cell.Col
+            |> should equal { cell with Type = CellType.O })
+
+        grid
+        |> should equal (newGrid (3, 3) 3)
+
+module ``enumerateEmptyCells`` =
+
+    [<Test>]
+    let ``Returns empty cells only`` () =
+        [
+            [ CellType.X; CellType.O; CellType.Empty ]
+            [ CellType.O; CellType.Empty; CellType.Empty ]
+            [ CellType.Empty; CellType.Empty; CellType.Empty ]
+        ]
+        |> newGridFromCells 3
+        |> enumerateEmptyCells
+        |> should equal
+        <| Seq.ofList [
+            { Row = 0; Col = 2; Type = CellType.Empty }
+            { Row = 1; Col = 1; Type = CellType.Empty }
+            { Row = 1; Col = 2; Type = CellType.Empty }
+            { Row = 2; Col = 0; Type = CellType.Empty }
+            { Row = 2; Col = 1; Type = CellType.Empty }
+            { Row = 2; Col = 2; Type = CellType.Empty }
+        ]
+
+module ``oppositeMove`` =
+
+    [<Test>]
+    let ``X -> O`` () =
+        MoveAs.X
+        |> oppositeMove
+        |> should equal MoveAs.O
+
+    [<Test>]
+    let ``O -> X`` () =
+        MoveAs.O
+        |> oppositeMove
+        |> should equal MoveAs.X
+

@@ -21,3 +21,29 @@ type GridState =
     | Draw
     | XWon of WinLine
     | OWon of WinLine
+
+type MoveAs =
+    | X
+    | O
+
+type SearchTree =
+    { Grid: Grid
+      State: GridState
+      MoveAs: MoveAs
+      Steps: Step seq }
+and Step =
+    { Row: int
+      Col: int
+      Tree: SearchTree }
+
+type BestMove =
+    { Row: int
+      Col: int
+      GridAfter: Grid
+      StateAfter: GridState }
+
+type MoveSummary =
+    { Grid: Grid
+      State: GridState
+      Move: BestMove option }
+

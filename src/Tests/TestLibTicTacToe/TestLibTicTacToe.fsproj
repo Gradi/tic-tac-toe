@@ -16,6 +16,7 @@
   <ItemGroup>
     <Compile Include="Tests\TestHelpers.fs" />
     <Compile Include="Tests\TestLogic.fs" />
+    <Compile Include="Tests\TestBotLogic.fs" />
   </ItemGroup>
 
 </Project>

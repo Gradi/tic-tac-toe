@@ -1,8 +1,10 @@
 module TestLibTicTacToe.Tests.TestHelpers
 
-open LibTicTacToe.Helpers
 open NUnit.Framework
 open FsUnit
+
+open LibTicTacToe.Helpers
+
 
 module ``isAllEqualBy`` =
 
@@ -32,3 +34,24 @@ module ``isAllEqualBy`` =
         (fun () ->
             isAllEqualBy (fun _ -> failwith "Ooops") [1; 2; 3] |> ignore)
         |> should throw typeof<System.Exception>
+
+module ``tryMaxBy`` =
+
+    [<Test>]
+    let ``For empty seq returns None`` () =
+        (Seq.empty: int seq)
+        |> tryMaxBy id
+        |> should equal None
+
+    [<Test>]
+    let ``For random seq returns Some max element`` ([<Range(1, 10)>] size: int) =
+        let numbers =
+            [ 0 .. size ]
+            |> Seq.ofList
+            |> Seq.map (fun _ -> NUnit.Framework.TestContext.CurrentContext.Random.Next ())
+            |> Seq.cache
+
+        numbers
+        |> tryMaxBy id
+        |> should equal (Some (Seq.max numbers))
+

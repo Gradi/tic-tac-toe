@@ -11,7 +11,7 @@ let newGrid (rows, cols) winLength =
 
     | rows, cols, winLength ->
         let cells =
-            Array.init rows (fun row -> Array.init cols (fun col -> { Row = row; Col = col; Type = Empty }))
+            Array.init rows (fun row -> Array.init cols (fun col -> { Row = row; Col = col; Type = CellType.Empty }))
             |> Array.concat
 
         { Rows = rows
@@ -60,13 +60,7 @@ let isAllEmpty grid =
 
 let isContainsEmpty grid =
     Option.isSome
-    <| Array.tryFind
-        (fun cell ->
-            match cell.Type with
-            | Empty -> true
-            | X
-            | O -> false)
-        grid.Cells
+    <| Array.tryFind (fun cell -> cell.Type = CellType.Empty) grid.Cells
 
 let enumerateCells grid =
     let rows, cols = grid.Rows, grid.Cols
@@ -139,13 +133,13 @@ let getWinLine grid : WinLine list =
 
     let folder state cell =
         match cell with
-        | { Row = _; Col = _; Type = Empty } ->
+        | { Row = _; Col = _; Type = CellType.Empty } ->
             match state with
             | _, [] -> state
             | listOfLines, buffer when isWinLine buffer -> (List.append listOfLines [ buffer ], [])
             | listOfLines, _ -> (listOfLines, [])
 
-        | { Row = _; Col = _; Type = X | O } ->
+        | { Row = _; Col = _; Type = CellType.X | CellType.O } ->
             match state with
             | listOfLines, [] -> (listOfLines, [ cell ])
 
@@ -191,9 +185,9 @@ let getGridState grid =
                 let cellType = (List.head winLine).Type
 
                 match cellType with
-                | Empty -> failwith "Should not happen"
-                | X -> XWon winLine
-                | O -> OWon winLine
+                | CellType.Empty -> failwith "Should not happen"
+                | CellType.X -> XWon winLine
+                | CellType.O -> OWon winLine
 
             | _ -> Draw
 
@@ -203,6 +197,37 @@ let withCellAt row col cellType grid =
     let index = row * grid.Cols + col
     { grid with Cells = grid.Cells |> Array.updateAt index cell }
 
+let withMoveAt (cell: Cell) moveAs grid =
+    let ctype =
+        match moveAs with
+        | MoveAs.X -> CellType.X
+        | MoveAs.O -> CellType.O
+
+    grid
+    |> withCellAt cell.Row cell.Col ctype
+
 let enumerateEmptyCells grid =
     Seq.ofArray grid.Cells
-    |> Seq.filter (fun c -> c.Type = Empty)
+    |> Seq.filter (fun c -> c.Type = CellType.Empty)
+
+let oppositeMove move =
+    match move with
+    | MoveAs.X -> MoveAs.O
+    | MoveAs.O -> MoveAs.X
+
+let gridToString grid =
+    let mapper cell =
+        match cell.Type with
+        | CellType.Empty -> " "
+        | CellType.X -> "X"
+        | CellType.O -> "O"
+
+    seq {
+        for r = 0 to grid.Rows - 1 do
+            yield seq {
+                for c = 0 to grid.Cols - 1 do
+                    yield mapper (cellAt r c grid)
+            }
+    }
+    |> Seq.map (String.concat " | ")
+    |> String.concat System.Environment.NewLine
