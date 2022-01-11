@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Platforms>x64</Platforms>
+    <Platform>x64</Platform>
   </PropertyGroup>
 
 </Project>
