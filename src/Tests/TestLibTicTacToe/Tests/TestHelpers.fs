@@ -55,3 +55,20 @@ module ``tryMaxBy`` =
         |> tryMaxBy id
         |> should equal (Some (Seq.max numbers))
 
+module TestSeqHelpers =
+
+    module ``findOrFold`` =
+
+        [<Test>]
+        let ``Returns some element from left`` () =
+            Seq.ofList [ 1 .. 10 ]
+            |> SeqHelpers.findOrFold (fun (_, _) element ->
+                    if element = 5 then (Some 5, -1)
+                    else (None, -1)) (None, -1)
+            |> should equal  5
+
+        [<Test>]
+        let ``Returns right element if left is none`` () =
+            Seq.ofList [ 1 .. 10 ]
+            |> SeqHelpers.findOrFold (fun (_, prevEl) element -> (None, max element prevEl)) (None, -1)
+            |> should equal 10

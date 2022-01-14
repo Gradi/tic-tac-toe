@@ -22,3 +22,23 @@ let tryMaxBy selector seq =
     seq
     |> Seq.fold folder None
     |> Option.map fst
+
+
+module SeqHelpers =
+
+    let findOrFold folder (left, right) (seq: 'T seq) =
+        use e = seq.GetEnumerator ()
+
+        let mutable left = left
+        let mutable right = right
+
+        while (Option.isNone left && e.MoveNext ()) do
+            let current = e.Current
+            let cleft, cright = folder (left, right) current
+
+            left <- cleft
+            right <- cright
+
+        match left, right with
+        | Some left, _ -> left
+        | None, right -> right
