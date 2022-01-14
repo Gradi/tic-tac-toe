@@ -64,7 +64,10 @@ let getBestMove meMoveAs grid =
 
     let bestMove =
         tree.Steps
-        |> Seq.map (fun step -> (step, alphabeta System.Int32.MinValue System.Int32.MaxValue step))
+        |> Seq.map (fun step -> async { return (step, alphabeta System.Int32.MinValue System.Int32.MaxValue step) })
+        |> Async.Parallel
+        |> Async.RunSynchronously
+        |> Seq.ofArray
         |> tryMaxBy snd
         |> Option.map fst
         |> Option.map (fun step -> { Row = step.Row; Col = step.Col; GridAfter = step.Tree.Grid; StateAfter = step.Tree.State })
