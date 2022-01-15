@@ -231,3 +231,36 @@ let gridToString grid =
     }
     |> Seq.map (String.concat " | ")
     |> String.concat System.Environment.NewLine
+
+
+let limitUnlimited = Unlimited
+
+let limitByDepth max =
+    if max < 0 then failwith $"Depth limit must be >= 0 (current: %d{max})."
+
+    Depth (0, max)
+
+let limitByTime maxTime =
+    if maxTime < System.TimeSpan.Zero then failwith $"Time limit must be >= 0 (current: %O{maxTime})."
+
+    Time (maxTime, None)
+
+let isLimitReached limit =
+    match limit with
+    | Unlimited -> false
+    | Depth (current, max) -> current >= max
+    | Time (_, None) -> false
+    | Time (_, Some { Now = now; EndTime = endTime }) -> now >= endTime
+
+let nextLimit limit =
+    match limit with
+    | Unlimited -> Unlimited
+    | Depth (current, max) -> Depth (current + 1, max)
+    | Time (max, None) ->
+        let now = System.TimeSpan (System.Diagnostics.Stopwatch.GetTimestamp ())
+
+        Time (max, Some { Now = now; EndTime = now + max })
+    | Time (max, Some { EndTime = endTime }) ->
+        let now = System.TimeSpan (System.Diagnostics.Stopwatch.GetTimestamp ())
+
+        Time (max, Some { Now = now; EndTime = endTime })

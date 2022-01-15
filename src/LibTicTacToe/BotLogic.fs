@@ -26,23 +26,26 @@ let gridToSearchTree firstMove grid =
 
     _gridToSTree firstMove grid (getGridState grid)
 
-let getBestMove meMoveAs grid =
+let getBestMove limit meMoveAs grid =
 
-    let rec alphabeta alpha beta step =
-        match step.Tree.State with
-        | Draw -> 1
-        | XWon _ when meMoveAs = MoveAs.X -> 2
-        | OWon _ when meMoveAs = MoveAs.O -> 2
-        | XWon _ | OWon _ -> 0
+    let rec alphabeta limit alpha beta step =
 
-        | Begining
-        | Playable ->
+        match step.Tree.State, isLimitReached limit with
+        | Draw, _ -> 2
+        | XWon _, _ when meMoveAs = MoveAs.X -> 3
+        | OWon _, _ when meMoveAs = MoveAs.O -> 3
+        | XWon _, _ | OWon _, _ -> 0
+        | _, true -> 1
+
+        | Begining, _
+        | Playable, _ ->
+            let limit = nextLimit limit
 
             if step.Tree.MoveAs = meMoveAs then
 
                 step.Tree.Steps
                 |> Seq.scan (fun (alpha, prevScore) step ->
-                    let score = alphabeta alpha beta step
+                    let score = alphabeta limit alpha beta step
                     let score = max score prevScore
                     (max alpha score, score)) (alpha, System.Int32.MinValue)
                 |> SeqHelpers.findOrFold (fun (_, prevScore) (_, score) ->
@@ -53,7 +56,7 @@ let getBestMove meMoveAs grid =
 
                 step.Tree.Steps
                 |> Seq.scan (fun (beta, prevScore) step ->
-                    let score = alphabeta alpha beta step
+                    let score = alphabeta limit alpha beta step
                     let score = min score prevScore
                     (min beta score, score)) (beta, System.Int32.MaxValue)
                 |> SeqHelpers.findOrFold (fun (_, prevScore) (_, score) ->
@@ -64,7 +67,7 @@ let getBestMove meMoveAs grid =
 
     let bestMove =
         tree.Steps
-        |> Seq.map (fun step -> async { return (step, alphabeta System.Int32.MinValue System.Int32.MaxValue step) })
+        |> Seq.map (fun step -> async { return (step, alphabeta limit System.Int32.MinValue System.Int32.MaxValue step) })
         |> Async.Parallel
         |> Async.RunSynchronously
         |> Seq.ofArray

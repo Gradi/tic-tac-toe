@@ -1066,3 +1066,32 @@ module ``oppositeMove`` =
         |> oppositeMove
         |> should equal MoveAs.X
 
+
+module ``isLimitReached`` =
+
+    [<Test>]
+    let ``Unlimited returns false`` () =
+        limitUnlimited
+        |> isLimitReached
+        |> should equal false
+
+    [<Test>]
+    let ``Depth returns false when max depth is reached`` () =
+        [ 1 .. 1001 ]
+        |> Seq.fold (fun limit _ -> nextLimit limit) (limitByDepth 1001)
+        |> isLimitReached
+        |> should equal true
+
+    [<Test>]
+    let ``This test should end in 2 seconds`` () =
+        let mutable limit = limitByTime <| System.TimeSpan.FromSeconds 2
+
+        while not <| isLimitReached limit do
+            limit <- nextLimit limit
+
+module ``limitByTime`` =
+
+    [<Test>]
+    let ``Should throw en error if time is negative `` () =
+        (fun () -> limitByTime <| System.TimeSpan.FromSeconds -1 |> ignore)
+        |> should throw typeof<System.Exception>

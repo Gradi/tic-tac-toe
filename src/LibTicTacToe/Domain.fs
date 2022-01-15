@@ -47,3 +47,11 @@ type MoveSummary =
       State: GridState
       Move: BestMove option }
 
+type TimeLimitBounds =
+    { Now: System.TimeSpan
+      EndTime: System.TimeSpan }
+
+type Limiter =
+    | Unlimited
+    | Depth of Current: int * Max: int
+    | Time of Max: System.TimeSpan * Current: TimeLimitBounds option
