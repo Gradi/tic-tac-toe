@@ -32,7 +32,7 @@
 
                 <MenuItem Header="Bot options" Click="MenuItem_BotOptions_Click" />
 
-                <MenuItem Header="_Exit" />
+                <MenuItem Header="_Exit" Click="MenuItem_Exit_Click" />
             </MenuItem>
 
             <MenuItem Header="Let bot do current move" Command="{Binding DoBotMove}"/>

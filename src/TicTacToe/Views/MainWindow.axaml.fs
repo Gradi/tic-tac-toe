@@ -50,6 +50,9 @@ type MainWindow () as this =
         }
         |> ignore
 
+    member private _.MenuItem_Exit_Click (sender: System.Object, args: RoutedEventArgs) =
+        this.Close ()
+
     member private _.GridControl_CellClicked (sender: System.Object, args: CellClickedRoutedEventArgs) =
         thisModel().DoTheMove args.Cell
 
