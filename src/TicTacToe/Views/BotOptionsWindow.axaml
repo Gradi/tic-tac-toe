@@ -1,0 +1,68 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:TicTacToe.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="225"
+        Width="465" Height="220"
+        WindowStartupLocation="CenterOwner"
+        x:Class="TicTacToe.Views.BotOptionsWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="TicTacToe - Bot options" >
+
+    <Design.DataContext>
+        <vm:BotOptionsWindowViewModel />
+    </Design.DataContext>
+
+    <StackPanel>
+        <DockPanel >
+            <StackPanel DockPanel.Dock="Left" Margin="10,10,10,10">
+                <Label>X's options</Label>
+                <Separator />
+
+                <Label>Tree search limiter type</Label>
+                <ComboBox SelectedIndex="{Binding XLimiterType}">
+                    <ComboBoxItem>Unlimited</ComboBoxItem>
+                    <ComboBoxItem>Depth</ComboBoxItem>
+                    <ComboBoxItem>Time</ComboBoxItem>
+                </ComboBox>
+
+                <StackPanel IsVisible="{Binding IsXDepthLimit}">
+                    <Label>Max depth:</Label>
+                    <TextBox Text="{Binding XMaxDepth}" />
+                </StackPanel>
+
+                <StackPanel IsVisible="{Binding IsXTimeLimit}">
+                    <Label>Time limit(seconds):</Label>
+                    <TextBox Text="{Binding XTimeLimitSeconds}" />
+                </StackPanel>
+
+            </StackPanel>
+
+            <StackPanel DockPanel.Dock="Right" Margin="10,10,10,10">
+                <Label>O's options</Label>
+                <Separator />
+
+                <Label>Tree search limiter type</Label>
+                <ComboBox SelectedIndex="{Binding OLimiterType}">
+                    <ComboBoxItem>Unlimited</ComboBoxItem>
+                    <ComboBoxItem>Depth</ComboBoxItem>
+                    <ComboBoxItem>Time</ComboBoxItem>
+                </ComboBox>
+
+                <StackPanel IsVisible="{Binding IsODepthLimit}">
+                    <Label>Max depth:</Label>
+                    <TextBox Text="{Binding OMaxDepth}" />
+                </StackPanel>
+
+                <StackPanel IsVisible="{Binding IsOTimeLimit}">
+                    <Label>Time limit(seconds):</Label>
+                    <TextBox Text="{Binding OTimeLimitSeconds}" />
+                </StackPanel>
+
+            </StackPanel>
+        </DockPanel>
+
+        <Button IsEnabled="{Binding IsConfigurationValid}" Click="Button_OK_Click">OK</Button>
+    </StackPanel>
+</Window>

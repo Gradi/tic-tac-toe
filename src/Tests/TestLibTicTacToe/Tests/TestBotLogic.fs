@@ -2,13 +2,14 @@ module TestLibTicTacToe.Tests.TestBotLogic
 
 open FsUnit
 open NUnit.Framework
+open System.Threading
 
 open LibTicTacToe.Domain
 open LibTicTacToe.Logic
 open LibTicTacToe.BotLogic
 
 let rec runGrid limit moveAs grid =
-    let move = getBestMove limit moveAs grid
+    let move = getBestMove CancellationToken.None limit moveAs grid
 
     match move.Move with
     | None -> move.Grid

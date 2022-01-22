@@ -1,0 +1,48 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:TicTacToe.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:TicTacToe.Controls"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        Width="650" Height="650"
+        WindowStartupLocation="CenterScreen"
+        x:Class="TicTacToe.Views.MainWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="TicTacToe">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <DockPanel LastChildFill="true">
+
+        <Menu DockPanel.Dock="Top" IsEnabled="{Binding !Busy}">
+            <MenuItem Header="_File">
+                <MenuItem Header="_New grid" Click="MenuItem_NewGrid_Click" />
+                <MenuItem Header="_Reset grid" Command="{Binding Reset}" />
+                <Separator />
+
+                <MenuItem Header="Enabled automoves">
+                    <MenuItem.Icon>
+                        <CheckBox BorderThickness="0" IsChecked="{Binding IsAutomoveEnabled}"  />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+
+                <MenuItem Header="Bot options" Click="MenuItem_BotOptions_Click" />
+
+                <MenuItem Header="_Exit" />
+            </MenuItem>
+
+            <MenuItem Header="Let bot do current move" Command="{Binding DoBotMove}"/>
+
+            <Label Content="Press 'ESC' to disable automoves" IsEnabled="false" />
+        </Menu>
+
+        <controls:TicTacToeGridControl DockPanel.Dock="Bottom" Grid="{Binding Grid}" GridState="{Binding GridState}"
+                                                               CurrentMoveAs="{Binding CurrentMoveAs}"
+                                                               CellClicked="GridControl_CellClicked" />
+
+    </DockPanel>
+</Window>

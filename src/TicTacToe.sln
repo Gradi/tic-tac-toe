@@ -11,6 +11,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TestLibTicTacToe", "Tests\T
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BenchmarkLibTicTacToe", "BenchmarkLibTicTacToe\BenchmarkLibTicTacToe.fsproj", "{98597F11-F8F3-4E9E-840C-E0D53C4409FD}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TicTacToe", "TicTacToe\TicTacToe.fsproj", "{61D8D042-DBDD-425E-BB1B-E716914757D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -32,6 +34,10 @@ Global
 		{98597F11-F8F3-4E9E-840C-E0D53C4409FD}.Debug|x64.Build.0 = Debug|x64
 		{98597F11-F8F3-4E9E-840C-E0D53C4409FD}.Release|x64.ActiveCfg = Release|x64
 		{98597F11-F8F3-4E9E-840C-E0D53C4409FD}.Release|x64.Build.0 = Release|x64
+		{61D8D042-DBDD-425E-BB1B-E716914757D8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{61D8D042-DBDD-425E-BB1B-E716914757D8}.Debug|x64.Build.0 = Debug|Any CPU
+		{61D8D042-DBDD-425E-BB1B-E716914757D8}.Release|x64.ActiveCfg = Release|Any CPU
+		{61D8D042-DBDD-425E-BB1B-E716914757D8}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{BCD87FB3-5985-4176-A066-387BB538316C} = {B74FC483-E2FA-4204-AC3C-779C22ED6DAA}

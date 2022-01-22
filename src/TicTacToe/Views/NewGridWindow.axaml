@@ -1,0 +1,51 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:TicTacToe.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="225"
+        Width="320" Height="250"
+        WindowStartupLocation="CenterOwner"
+        x:Class="TicTacToe.Views.NewGridWindow"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="TicTacToe - New Grid">
+
+    <Design.DataContext>
+        <vm:NewGridWindowViewModel />
+    </Design.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0">Rows</Label>
+        <TextBox Grid.Row="1" Grid.Column="0" Watermark="Row count" Text="{Binding Rows}" />
+
+        <Label Grid.Row="2" Grid.Column="0">Columns</Label>
+        <TextBox Grid.Row="3" Grid.Column="0" Watermark="Column count" Text="{Binding Cols}" />
+
+        <Label Grid.Row="4" Grid.Column="0">Win length</Label>
+        <TextBox Grid.Row="5" Grid.Column="0" Watermark="Win length" Text="{Binding WinLength}" />
+
+        <Label Grid.Row="6" Grid.Column="0">First move as</Label>
+        <ComboBox Grid.Row="7" Grid.Column="0" SelectedIndex="{Binding MoveAsIndex}">
+            <ComboBoxItem>X</ComboBoxItem>
+            <ComboBoxItem>O</ComboBoxItem>
+        </ComboBox>
+
+        <Button Grid.Row="8" Grid.Column="0" Click="Button_Ok_Click" IsEnabled="{Binding IsConfigurationValid}">OK</Button>
+    </Grid>
+
+</Window>

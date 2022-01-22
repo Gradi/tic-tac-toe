@@ -1,5 +1,7 @@
 module LibTicTacToe.BotLogic
 
+open System.Threading
+
 open LibTicTacToe.Domain
 open LibTicTacToe.Logic
 open LibTicTacToe.Helpers
@@ -26,19 +28,20 @@ let gridToSearchTree firstMove grid =
 
     _gridToSTree firstMove grid (getGridState grid)
 
-let getBestMove limit meMoveAs grid =
+let getBestMove (cancellationToken: CancellationToken) limit meMoveAs grid =
 
     let rec alphabeta limit alpha beta step =
 
-        match step.Tree.State, isLimitReached limit with
-        | Draw, _ -> 2
-        | XWon _, _ when meMoveAs = MoveAs.X -> 3
-        | OWon _, _ when meMoveAs = MoveAs.O -> 3
-        | XWon _, _ | OWon _, _ -> 0
-        | _, true -> 1
+        match step.Tree.State, isLimitReached limit, cancellationToken.IsCancellationRequested with
+        | Draw, _, _ -> 2
+        | XWon _, _, _ when meMoveAs = MoveAs.X -> 3
+        | OWon _, _, _ when meMoveAs = MoveAs.O -> 3
+        | XWon _, _, _ | OWon _, _, _ -> 0
+        | _, true, _
+        | _, _, true -> 1
 
-        | Begining, _
-        | Playable, _ ->
+        | Begining, _, _
+        | Playable, _, _ ->
             let limit = nextLimit limit
 
             if step.Tree.MoveAs = meMoveAs then

@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Models\InitialGridModel.fs" />
+    <Compile Include="Models\BotOptionsModel.fs" />
+
+    <Compile Include="Controls\TicTacToeGridControl.fs" />
+    
+    <Compile Include="ViewModels\ViewModelBase.fs" />
+    <Compile Include="ViewModels\MainWindowViewModel.fs" />
+    <Compile Include="ViewModels\NewGridWindowViewModel.fs" />
+    <Compile Include="ViewModels\BotOptionsWindowViewModel.fs" />
+    
+    <Compile Include="Views\NewGridWindow.axaml.fs" />
+    <Compile Include="Views\BotOptionsWindow.axaml.fs" />
+    <Compile Include="Views\MainWindow.axaml.fs" />
+    
+    <Compile Include="ViewLocator.fs" />
+    <Compile Include="App.axaml.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.10.11" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.11" />
+    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.11" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LibTicTacToe\LibTicTacToe.fsproj" />
+  </ItemGroup>
+
+</Project>

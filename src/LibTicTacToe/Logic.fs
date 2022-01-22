@@ -197,14 +197,14 @@ let withCellAt row col cellType grid =
     let index = row * grid.Cols + col
     { grid with Cells = grid.Cells |> Array.updateAt index cell }
 
-let withMoveAt (cell: Cell) moveAs grid =
-    let ctype =
-        match moveAs with
-        | MoveAs.X -> CellType.X
-        | MoveAs.O -> CellType.O
+let moveAsToCellType moveAs =
+    match moveAs with
+    | MoveAs.X -> CellType.X
+    | MoveAs.O -> CellType.O
 
+let withMoveAt (cell: Cell) moveAs grid =
     grid
-    |> withCellAt cell.Row cell.Col ctype
+    |> withCellAt cell.Row cell.Col (moveAsToCellType moveAs)
 
 let enumerateEmptyCells grid =
     Seq.ofArray grid.Cells
