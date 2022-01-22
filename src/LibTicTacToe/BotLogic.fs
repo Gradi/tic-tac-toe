@@ -71,7 +71,7 @@ let getBestMove (cancellationToken: CancellationToken) limit meMoveAs grid =
                     (max alpha score, score)
 
                 let findOrFold (_, prevScore) (_, score) =
-                    if score >= beta then (Some score, score)
+                    if score >= beta || cancellationToken.IsCancellationRequested then (Some score, score)
                     else (None, max prevScore score)
 
                 step.Tree.Steps
@@ -85,7 +85,7 @@ let getBestMove (cancellationToken: CancellationToken) limit meMoveAs grid =
                     (min score beta, score)
 
                 let findOrFold (_, prevScore) (_, score) =
-                    if score <= alpha then (Some score, score)
+                    if score <= alpha || cancellationToken.IsCancellationRequested then (Some score, score)
                     else (None, min prevScore score)
 
                 step.Tree.Steps
