@@ -46,5 +46,24 @@ module ``getBestMove`` =
         |> getGridState
         |> should equal Draw
 
+    [<Test>]
+    let ``Bot should take winning turn immediatelly`` () =
+        let move =
+            [
+                [CellType.Empty; CellType.Empty; CellType.X; CellType.Empty]
+                [CellType.Empty; CellType.Empty; CellType.Empty; CellType.Empty]
+                [CellType.Empty; CellType.Empty; CellType.X; CellType.Empty]
+                [CellType.Empty; CellType.Empty; CellType.Empty; CellType.Empty]
+            ]
+            |> newGridFromCells 3
+            |> getBestMove CancellationToken.None limitUnlimited MoveAs.X
+
+        move.Move
+        |> Option.map (fun m -> m.StateAfter)
+        |> should equal (Some (XWon [ { Row = 0; Col = 2; Type = CellType.X }
+                                      { Row = 1; Col = 2; Type = CellType.X }
+                                      { Row = 2; Col = 2; Type = CellType.X }
+                        ]))
+
 
 
